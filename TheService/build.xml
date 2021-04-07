@@ -1,0 +1,41 @@
+<project name="theservice" default="test"
+    xmlns:ivy="antlib:org.apache.ivy.ant">
+
+    <target name="clean">
+        <delete dir="build"/>
+    </target>
+
+    <target name="compile" depends="ivy-retrieve">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes"/>
+    </target>
+
+    <target name="jar" depends="compile">
+        <mkdir dir="build/jar"/>
+        <jar destfile="build/jar/TheLibrary.jar" basedir="build/classes">
+            <manifest>
+                <attribute name="Main-Class" value="se.woop.TheLibrary"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="ear" depends="jar">
+        <mkdir dir="build/ear"/>
+        <mkdir dir="build/war"/>
+        <ear destfile="build/ear/TheService.ear" appxml="src/meta-inf/application.xml">
+            <metainf dir="src/meta-inf" includes="application-*.xml,*-application*.xml"/>
+            <!-- <fileset dir="build/war" includes="${ant.project.name}.war"/> -->
+            <fileset dir="lib" includes="lib/**" />
+        </ear>
+    </target>
+
+    <target name="ivy-retrieve" description="retrieve dependencies with ivy">
+        <!--
+            Sync set to true will ensure that any extra files in lib directory is deleted.
+            Type set to jar tells ivy to copy only jar artifacts. Source and javadoc artifacts are ignored.
+            Some modules like log4j use bundle as type for jar artifact.
+        -->
+        <ivy:retrieve sync="true" type="jar,bundle" />
+    </target>
+
+</project>
