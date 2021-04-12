@@ -1,16 +1,17 @@
 <project name="theclient" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <target name="clean">
-        <delete dir="build"/>
+    <target name="clean" description="Remove previous build">
+        <delete dir="build" />
+        <delete dir="lib" />
     </target>
 
-    <target name="compile">
+    <target name="compile" description="Compile source" depends="ivy-retrieve">
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes"/>
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="jar" description="Builds 'TheClient.jar'" depends="compile">
         <mkdir dir="build/jar"/>
         <jar destfile="build/jar/TheClient.jar" basedir="build/classes">
             <manifest>
@@ -19,7 +20,7 @@
         </jar>
     </target>
 
-    <target name="ivy-retrieve" description="retrieve dependencies with ivy">
+    <target name="ivy-retrieve" description="Retrieve dependencies with ivy">
         <!--
             Sync set to true will ensure that any extra files in lib directory is deleted.
             Type set to jar tells ivy to copy only jar artifacts. Source and javadoc artifacts are ignored.
