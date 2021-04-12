@@ -1,16 +1,24 @@
 <project name="thelibrary" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
+    <uptodate targetfile="build/jar/TheLibrary.jar" property="artifact.uptodate">
+        <srcfiles dir= "src" includes="*"/>
+    </uptodate>
+
     <target name="clean">
         <delete dir="build"/>
     </target>
 
     <target name="compile">
         <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" includeantruntime="false" />
     </target>
 
-    <target name="jar" depends="compile">
+    <target name="build-only-if-changed" unless="artifact.uptodate">
+        <antcall target="build" />
+    </target>
+
+    <target name="build" depends="compile">
         <mkdir dir="build/jar"/>
         <jar destfile="build/jar/TheLibrary.jar" basedir="build/classes">
             <manifest>
@@ -28,7 +36,7 @@
         <ivy:retrieve sync="true" type="jar,bundle" />
     </target>
 
-    <target name="ivy-publish-local" description="Publish this build into repository" depends="jar">
+    <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
         <ivy:resolve/>
         <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
             <artifacts pattern="build/jar/[artifact].[ext]"/>
