@@ -1,11 +1,21 @@
-<project name="root" default="build-and-deploy" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="root" default="build-and-deploy" basedir="."
+    xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <ivy:buildlist reference="build-list">
-      <fileset dir="." includes="/*/build.xml"/>
+        <fileset dir="." includes="/*/build.xml"/>
     </ivy:buildlist>
 
+    <target name="clean">
+        <subant buildpathref="build-list">
+            <target name="clean" />
+        </subant>
+    </target>
+
     <target name="build-and-deploy" description="Build and publish all modules">
-        <subant target="build-only-if-changed" buildpathref="build-list" />
+        <subant buildpathref="build-list">
+            <target name="build-only-if-changed" />
+            <target name="ivy-publish-local" />
+        </subant>
     </target>
 
 </project>

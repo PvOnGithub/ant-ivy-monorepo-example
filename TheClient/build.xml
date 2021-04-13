@@ -34,7 +34,7 @@
             Type set to jar tells ivy to copy only jar artifacts. Source and javadoc artifacts are ignored.
             Some modules like log4j use bundle as type for jar artifact.
         -->
-        <ivy:retrieve sync="true" type="jar,bundle" />
+        <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" />
     </target>
 
     <target name="ivy-publish-local" description="Publish this build into repository" depends="build">

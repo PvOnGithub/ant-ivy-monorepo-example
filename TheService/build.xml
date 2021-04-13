@@ -1,7 +1,7 @@
 <project name="theservice" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/ear/TheService.ear" property="artifact.uptodate">
+    <uptodate targetfile="build/artifacts/theservice-ear.ear" property="artifact.uptodate">
         <srcfiles dir= "src" includes="*" />
     </uptodate>
 
@@ -15,11 +15,19 @@
     </target>
 
     <target name="jar" depends="compile">
-        <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/TheLibrary.jar" basedir="build/classes">
+        <mkdir dir="build/artifacts"/>
+        <jar destfile="build/artifacts/theservice.jar" basedir="build/classes">
             <manifest>
-                <attribute name="Main-Class" value="se.woop.TheLibrary"/>
+                <attribute name="Main-Class" value="se.woop.TheService"/>
             </manifest>
+        </jar>
+
+        <jar destfile="build/artifacts/theservice-client.jar">
+            <fileset dir="build/classes" includes="se/woop/TheClientClass.class"/>
+        </jar>
+
+        <jar destfile="build/artifacts/theservice-schema.jar">
+            <fileset dir="build/classes" includes="se/woop/TheSchemaClass.class"/>
         </jar>
     </target>
 
@@ -28,9 +36,9 @@
     </target>
 
     <target name="build" depends="jar">
-        <mkdir dir="build/ear"/>
+        <mkdir dir="build/artifacts"/>
         <!-- <mkdir dir="build/war"/> -->
-        <ear destfile="build/ear/TheService.ear" appxml="src/meta-inf/application.xml">
+        <ear destfile="build/artifacts/theservice-service.ear" appxml="src/meta-inf/application.xml">
             <metainf dir="src/meta-inf" includes="application-*.xml,*-application*.xml"/>
             <!-- <fileset dir="build/war" includes="${ant.project.name}.war"/> -->
             <fileset dir="lib" includes="lib/**" />
@@ -44,6 +52,13 @@
             Some modules like log4j use bundle as type for jar artifact.
         -->
         <ivy:retrieve sync="true" type="jar,bundle" />
+    </target>
+
+    <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
+        <ivy:resolve/>
+        <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
+            <artifacts pattern="build/artifacts/[artifact]-[type].[ext]"/>
+        </ivy:publish>
     </target>
 
 </project>

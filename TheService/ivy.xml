@@ -1,10 +1,23 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<ivy-module version="2.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
-    
+<ivy-module version="2.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
+
     <info organisation="se.woop" module="theservice" status="release" />
 
+    <configurations>
+        <conf name="default" visibility="public" />
+        <conf name="client" visibility="public" />
+        <conf name="schema" visibility="public" />
+    </configurations>
+
+    <publications>
+        <artifact name="theservice" type="service" ext="ear" conf="default" />
+        <artifact name="theservice" type="client" ext="jar" conf="client" />
+        <artifact name="theservice" type="schema" ext="jar" conf="schema" />
+    </publications>
+
     <dependencies>
-        <dependency org="se.woop" name="thelibrary" rev="latest.release" />
+        <dependency org="se.woop" name="thelibrary" rev="latest.release" conf="default" />
     </dependencies>
 
 </ivy-module>
