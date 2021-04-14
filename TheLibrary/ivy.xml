@@ -5,7 +5,7 @@
     <info organisation="se.woop" module="thelibrary" status="release" />
 
     <publications>
-        <artifact name="TheLibrary" type="jar" ext="jar" />
+        <artifact name="thelibrary" type="jar" ext="jar" />
     </publications>
 
     <dependencies>

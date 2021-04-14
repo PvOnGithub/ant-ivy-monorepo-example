@@ -1,7 +1,7 @@
 <project name="theclient" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/jar/TheClient.jar" property="artifact.uptodate">
+    <uptodate targetfile="build/artifacts/TheClient.jar" property="artifact.uptodate">
         <srcfiles dir= "src" includes="*"/>
     </uptodate>
 
@@ -10,22 +10,26 @@
         <delete dir="lib" />
     </target>
 
-    <target name="compile" description="Compile source" depends="ivy-retrieve">
-        <mkdir dir="build/classes"/>
-        <javac srcdir="src" destdir="build/classes" includeantruntime="false" />
-    </target>
-
     <target name="build-only-if-changed" unless="artifact.uptodate">
         <antcall target="build" />
     </target>
 
     <target name="build" description="Builds 'TheClient.jar'" depends="compile">
-        <mkdir dir="build/jar"/>
-        <jar destfile="build/jar/TheClient.jar" basedir="build/classes">
+        <mkdir dir="build/artifacts"/>
+        <jar destfile="build/artifacts/TheClient.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="se.woop.TheClient"/>
             </manifest>
         </jar>
+    </target>
+
+    <target name="deploy">
+        <echo>TODO: Deploy code here!!! :-)</echo>
+    </target>
+
+    <target name="compile" description="Compile source" depends="ivy-retrieve">
+        <mkdir dir="build/classes"/>
+        <javac srcdir="src" destdir="build/classes" includeantruntime="false" />
     </target>
 
     <target name="ivy-retrieve" description="Retrieve dependencies with ivy">
@@ -40,8 +44,12 @@
     <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
         <ivy:resolve/>
         <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
-            <artifacts pattern="build/jar/[artifact].[ext]"/>
+            <artifacts pattern="build/artifacts/[artifact].[ext]"/>
         </ivy:publish>
+    </target>
+
+    <target name="dependency-tree">
+        <ivy:dependencytree />
     </target>
 
 </project>

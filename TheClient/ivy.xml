@@ -5,7 +5,7 @@
     <info organisation="se.woop" module="theclient" status="release" />
 
     <publications>
-        <artifact name="TheClient" type="jar" ext="jar" />
+        <artifact name="theclient" type="jar" ext="jar" />
     </publications>
 
     <dependencies>

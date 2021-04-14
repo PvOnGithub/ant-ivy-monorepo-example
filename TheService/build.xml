@@ -9,6 +9,24 @@
         <delete dir="build"/>
     </target>
 
+    <target name="build-only-if-changed" unless="artifact.uptodate">
+        <antcall target="build" />
+    </target>
+
+    <target name="build" depends="jar">
+        <mkdir dir="build/artifacts"/>
+        <!-- <mkdir dir="build/war"/> -->
+        <ear destfile="build/artifacts/theservice-service.ear" appxml="src/meta-inf/application.xml">
+            <metainf dir="src/meta-inf" includes="application-*.xml,*-application*.xml"/>
+            <!-- <fileset dir="build/war" includes="${ant.project.name}.war"/> -->
+            <fileset dir="lib" includes="lib/**" />
+        </ear>
+    </target>
+
+    <target name="deploy">
+        <echo>TODO: Deploy code here!!! :-)</echo>
+    </target>
+
     <target name="compile" depends="ivy-retrieve">
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes" includeantruntime="false" />
@@ -31,20 +49,6 @@
         </jar>
     </target>
 
-    <target name="build-only-if-changed" unless="artifact.uptodate">
-        <antcall target="build" />
-    </target>
-
-    <target name="build" depends="jar">
-        <mkdir dir="build/artifacts"/>
-        <!-- <mkdir dir="build/war"/> -->
-        <ear destfile="build/artifacts/theservice-service.ear" appxml="src/meta-inf/application.xml">
-            <metainf dir="src/meta-inf" includes="application-*.xml,*-application*.xml"/>
-            <!-- <fileset dir="build/war" includes="${ant.project.name}.war"/> -->
-            <fileset dir="lib" includes="lib/**" />
-        </ear>
-    </target>
-
     <target name="ivy-retrieve" description="retrieve dependencies with ivy">
         <!--
             Sync set to true will ensure that any extra files in lib directory is deleted.
@@ -59,6 +63,10 @@
         <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
             <artifacts pattern="build/artifacts/[artifact]-[type].[ext]"/>
         </ivy:publish>
+    </target>
+
+    <target name="dependency-tree">
+        <ivy:dependencytree />
     </target>
 
 </project>
