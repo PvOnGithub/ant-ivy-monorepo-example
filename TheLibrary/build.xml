@@ -1,7 +1,7 @@
 <project name="thelibrary" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/artifacts/TheLibrary.jar" property="artifact.uptodate">
+    <uptodate targetfile="build/artifacts/thelibrary.jar" property="artifact.uptodate">
         <srcfiles dir= "src" includes="*"/>
     </uptodate>
 
@@ -15,7 +15,7 @@
 
     <target name="build" depends="compile">
         <mkdir dir="build/artifacts"/>
-        <jar destfile="build/artifacts/TheLibrary.jar" basedir="build/classes">
+        <jar destfile="build/artifacts/thelibrary.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="se.woop.TheLibrary"/>
             </manifest>
@@ -43,6 +43,13 @@
     <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
         <ivy:resolve/>
         <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
+            <artifacts pattern="build/artifacts/[artifact].[ext]"/>
+        </ivy:publish>
+    </target>
+
+    <target name="ivy-publish-public" description="Publish this build into repository" depends="build">
+        <ivy:resolve/>
+        <ivy:publish pubrevision="1.0" status="release" resolver="public" overwrite="true">
             <artifacts pattern="build/artifacts/[artifact].[ext]"/>
         </ivy:publish>
     </target>

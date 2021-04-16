@@ -11,7 +11,7 @@
         </subant>
     </target>
 
-    <target name="build-and-publish-local" description="Build and publish all modules">
+    <target name="build" description="Build and publish all modules">
         <subant buildpathref="build-list">
             <target name="build-only-if-changed" />
             <target name="ivy-publish-local" />
