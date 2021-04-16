@@ -1,4 +1,4 @@
-# ANT IVY MONOREPO EXAMPLE
+# ANT IVY MONOREPO EXEMPEL
 
 För att testa det här repot behöver man ha Ant och Ivy installerat. Instruktioner för installation av Ant finns [här](https://ant.apache.org/manual/install.html).
 
