@@ -3,7 +3,7 @@
 För att testa det här repot behöver man ha Ant och Ivy installerat. Instruktioner för installation av Ant finns [här](https://ant.apache.org/manual/install.html).
 
 När man har Ant installerat kan man köra följande kommando för att installera Ivy:
-```ant install-ivy``` <--- TODO: Lägg till target
+```ant install-ivy```
 
 ## Projekt
 
