@@ -1,7 +1,7 @@
 <project name="theservice" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/artifacts/theservice-ear.ear" property="artifact.uptodate">
+    <uptodate targetfile="build/artifacts/theservice-service.ear" property="artifact.uptodate">
         <srcfiles dir= "src" includes="*" />
     </uptodate>
 
@@ -9,8 +9,9 @@
         <delete dir="build"/>
     </target>
 
-    <target name="build-only-if-changed" unless="artifact.uptodate">
+    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate">
         <antcall target="build" />
+        <antcall target="ivy-publish-local" />
     </target>
 
     <target name="build" depends="jar">
@@ -58,7 +59,7 @@
         <ivy:retrieve sync="true" type="jar,bundle" />
     </target>
 
-    <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
+    <target name="ivy-publish-local" description="Publish this build into repository">
         <ivy:resolve/>
         <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
             <artifacts pattern="build/artifacts/[artifact]-[type].[ext]"/>

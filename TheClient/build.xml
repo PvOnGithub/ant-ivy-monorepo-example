@@ -10,8 +10,9 @@
         <delete dir="lib" />
     </target>
 
-    <target name="build-only-if-changed" unless="artifact.uptodate">
+    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate">
         <antcall target="build" />
+        <antcall target="ivy-publish-local" />
     </target>
 
     <target name="build" description="Builds 'TheClient.jar'" depends="compile">
@@ -41,7 +42,7 @@
         <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" />
     </target>
 
-    <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
+    <target name="ivy-publish-local" description="Publish this build into repository">
         <ivy:resolve/>
         <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
             <artifacts pattern="build/artifacts/[artifact].[ext]"/>
