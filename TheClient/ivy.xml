@@ -2,7 +2,7 @@
 <ivy-module version="2.0"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://ant.apache.org/ivy/schemas/ivy.xsd">
 
-    <info organisation="se.woop" module="theclient" status="release" />
+    <info organisation="se.woop" module="theclient" />
 
     <publications>
         <artifact name="theclient" type="jar" ext="jar" />
@@ -10,7 +10,7 @@
 
     <dependencies>
         <dependency org="commons-lang" name="commons-lang" rev="2.6" conf="*->default" />
-        <dependency org="se.woop" name="theservice" rev="latest.release" conf="*->client" />
+        <dependency org="se.woop" name="theservice" rev="latest.integration" conf="*->client" />
     </dependencies>
 
 </ivy-module>

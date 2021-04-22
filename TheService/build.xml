@@ -1,15 +1,23 @@
 <project name="theservice" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/artifacts/theservice-service.ear" property="artifact.uptodate">
-        <srcfiles dir= "src" includes="*" />
-    </uptodate>
+        <target name="init">
+        <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" log="quiet" />
 
-    <target name="clean">
-        <delete dir="build"/>
+        <uptodate targetfile="build/artifacts/theservice-service.ear" property="artifact.uptodate">
+            <srcfiles dir= "src" includes="*"/>
+            <srcfiles dir= "lib" includes="*"/>
+            <srcfiles dir= "." includes="ivy.xml"/>
+        </uptodate>
     </target>
 
-    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate">
+    <target name="clean" description="Remove previous build">
+        <delete dir="build" />
+        <delete dir="lib" />
+    </target>
+
+    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
+        <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
     </target>
@@ -20,7 +28,8 @@
         <ear destfile="build/artifacts/theservice-service.ear" appxml="src/meta-inf/application.xml">
             <metainf dir="src/meta-inf" includes="application-*.xml,*-application*.xml"/>
             <!-- <fileset dir="build/war" includes="${ant.project.name}.war"/> -->
-            <fileset dir="lib" includes="lib/**" />
+            <fileset dir="build/artifacts" includes="theservice.jar" />
+            <fileset dir="lib" includes="*" />
         </ear>
     </target>
 
@@ -28,7 +37,7 @@
         <echo>TODO: Deploy code here!!! :-)</echo>
     </target>
 
-    <target name="compile" depends="ivy-retrieve">
+    <target name="compile">
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes" includeantruntime="false" />
     </target>
@@ -57,11 +66,12 @@
             Some modules like log4j use bundle as type for jar artifact.
         -->
         <ivy:retrieve sync="true" type="jar,bundle" />
+        
     </target>
 
     <target name="ivy-publish-local" description="Publish this build into repository">
         <ivy:resolve/>
-        <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
+        <ivy:publish resolver="local" status="integration" forcedeliver="true">
             <artifacts pattern="build/artifacts/[artifact]-[type].[ext]"/>
         </ivy:publish>
     </target>

@@ -1,18 +1,28 @@
 <project name="thelibrary" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/artifacts/thelibrary.jar" property="artifact.uptodate">
-        <srcfiles dir= "src" includes="*"/>
-    </uptodate>
+    <target name="init">
+        <mkdir dir="${basedir}/lib"/> <!-- Why is this not creating a 'lib' folder under TheLibrary? -->
+        <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" log="quiet" />
 
-    <target name="clean">
-        <delete dir="build"/>
+        <uptodate targetfile="build/artifacts/thelibrary.jar" property="artifact.uptodate">
+            <srcfiles dir= "src" includes="*"/>
+            <!-- <srcfiles dir= "lib" includes="*"/> If no dependencies present, no lib-folder will be created. Without a 'lib' folder this will crash. -->
+            <srcfiles dir= "." includes="ivy.xml"/>
+        </uptodate>
     </target>
 
-    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate">
+    <target name="clean" description="Remove previous build">
+        <delete dir="build" />
+        <delete dir="lib" />
+    </target>
+
+    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
+        <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
     </target>
+
 
     <target name="build" depends="compile">
         <mkdir dir="build/artifacts"/>
@@ -41,16 +51,9 @@
         <ivy:retrieve sync="true" type="jar,bundle" />
     </target>
 
-    <target name="ivy-publish-local" description="Publish this build into repository" depends="build">
+    <target name="ivy-publish-local" description="Publish this build into repository">
         <ivy:resolve/>
-        <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
-            <artifacts pattern="build/artifacts/[artifact].[ext]"/>
-        </ivy:publish>
-    </target>
-
-    <target name="ivy-publish-public" description="Publish this build into repository">
-        <ivy:resolve/>
-        <ivy:publish pubrevision="1.0" status="release" resolver="public" overwrite="true">
+        <ivy:publish resolver="local" status="integration" forcedeliver="true">
             <artifacts pattern="build/artifacts/[artifact].[ext]"/>
         </ivy:publish>
     </target>

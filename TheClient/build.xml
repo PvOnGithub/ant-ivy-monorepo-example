@@ -1,23 +1,30 @@
 <project name="theclient" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-    <uptodate targetfile="build/artifacts/TheClient.jar" property="artifact.uptodate">
-        <srcfiles dir= "src" includes="*"/>
-    </uptodate>
+    <target name="init">
+        <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" log="quiet" />
+
+        <uptodate targetfile="build/artifacts/theclient.jar" property="artifact.uptodate">
+            <srcfiles dir= "src" includes="*"/>
+            <srcfiles dir= "lib" includes="*"/>
+            <srcfiles dir= "." includes="ivy.xml"/>
+        </uptodate>
+    </target>
 
     <target name="clean" description="Remove previous build">
         <delete dir="build" />
         <delete dir="lib" />
     </target>
 
-    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate">
+    <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
+        <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
     </target>
 
-    <target name="build" description="Builds 'TheClient.jar'" depends="compile">
+    <target name="build" description="Builds 'theclient.jar'" depends="compile">
         <mkdir dir="build/artifacts"/>
-        <jar destfile="build/artifacts/TheClient.jar" basedir="build/classes">
+        <jar destfile="build/artifacts/theclient.jar" basedir="build/classes">
             <manifest>
                 <attribute name="Main-Class" value="se.woop.TheClient"/>
             </manifest>
@@ -28,7 +35,7 @@
         <echo>TODO: Deploy code here!!! :-)</echo>
     </target>
 
-    <target name="compile" description="Compile source" depends="ivy-retrieve">
+    <target name="compile" description="Compile source">
         <mkdir dir="build/classes"/>
         <javac srcdir="src" destdir="build/classes" includeantruntime="false" />
     </target>
@@ -39,12 +46,12 @@
             Type set to jar tells ivy to copy only jar artifacts. Source and javadoc artifacts are ignored.
             Some modules like log4j use bundle as type for jar artifact.
         -->
-        <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" />
+        <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" overwriteMode="always" />
     </target>
 
     <target name="ivy-publish-local" description="Publish this build into repository">
         <ivy:resolve/>
-        <ivy:publish pubrevision="1.0" status="release" resolver="local" overwrite="true">
+        <ivy:publish resolver="local" status="integration" forcedeliver="true">
             <artifacts pattern="build/artifacts/[artifact].[ext]"/>
         </ivy:publish>
     </target>
