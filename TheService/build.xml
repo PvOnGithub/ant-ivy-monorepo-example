@@ -1,7 +1,9 @@
 <project name="theservice" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
-        <target name="init">
+    <ivy:settings file="../ivysettings/ivysettings.xml"/>
+
+    <target name="init">
         <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" log="quiet" />
 
         <uptodate targetfile="build/artifacts/theservice-service.ear" property="artifact.uptodate">

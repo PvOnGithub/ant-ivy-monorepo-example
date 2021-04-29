@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ivy-settings>
+  <settings defaultResolver="main" />
+  <!--Authentication required for publishing (deployment). 'Artifactory Realm' is the realm used by Artifactory so don't change it.-->
+  <credentials host="localhost" realm="Artifactory Realm" username="admin" passwd="H3ml1gt!88" />
+  <resolvers>
+    <chain name="main">
+      <url name="shared" m2compatible="true">
+        <artifact pattern="http://localhost:8081/artifactory/example-ivy-dev-local/[organization]/[module]/[revision]/[type]s/[module](-[classifier])-[revision].[ext]" />
+        <ivy pattern="http://localhost:8081/artifactory/example-ivy-dev-local/[organization]/[module]/[revision]/[type]s/ivy-[revision].xml" />
+      </url>
+    </chain>
+  </resolvers>
+</ivy-settings>

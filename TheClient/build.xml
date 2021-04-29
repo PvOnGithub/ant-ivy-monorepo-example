@@ -1,6 +1,8 @@
 <project name="theclient" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
+    <ivy:settings file="../ivysettings/ivysettings.xml"/>
+
     <target name="init">
         <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" log="quiet" />
 
