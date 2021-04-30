@@ -73,5 +73,54 @@ Behöver man styra beroenden på en finare nivå än vad som är möjligt med *c
 
 ### ivysettings.xml
 
-Utan att ha specificerat en egen *ivysettings.xml* kommer ivy använda sig av ett gäng standardinställningar. 
+I *ivysettings.xml* finns information om olika källor för beroenden, så kallade *resolvers* samt i vilken ordning man ska anropa desamma. Ordningen specificeras i en så kallad *chain*. 
+
+Utan att ha specificerat en egen *ivysettings.xml* kommer ivy använda sig av ett gäng standardinställningar. Information om hur dessa standardinställningar ser ut går att hitta [här](https://ant.apache.org/ivy/history/2.2.0/tutorial/defaultconf.html). För att överlagra dessa standardinställningar kan man ladda in en egen *ivysettings.xml* i sin *build.xml*. Detta görs genom att lägga in följande tagg:
+`<ivy:settings file="../ivysettings/ivysettings.xml" />`
+
+I det här projektet ser vår överlagrade *ivysettings.xml* ut såhär:
+
+```xml
+<ivysettings>
+  <settings defaultResolver="default"/>
+  <include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
+  <include url="./ivysettings-shared.xml"/>
+  <include url="${ivy.default.settings.dir}/ivysettings-local.xml"/>
+  <include url="${ivy.default.settings.dir}/ivysettings-main-chain.xml"/>
+  <include url="${ivy.default.settings.dir}/ivysettings-default-chain.xml"/>
+</ivysettings>
+```
+
+Variabeln *ivy.default.settings.dir* pekar på foldern där default konfigurationerna finns (medpackade i ivy.jar normalt sett). I exemplet ovan har jag behållit alla default inställningar utom för *shared* resolvern. I samma folder som *ivysettings.xml* har jag skapat en *ivysettings-shared.xml*. 
+
+Om man inte överlagrar kedjan för i vilken ordning man ska leta efter ett beroende är den som följer:
+
+1. local
+2. shared
+3. public
+
+*Local* pekar på foldern *local* i din lokala *.ivy2* katalog som ligger i din användarkatalog. I mitt fall följande sökväg: `C:\Users\davber100\.ivy2\local`.
+
+Shared pekar normalt sett på foldern *shared* under din lokala *.ivy2* katalog. I vårt fall har vi överlagrat densamma för att peka på en artifaktory istället. Vår *ivysettings-shared.xml* ser ut såhär:
+
+```xml
+<ivy-settings>
+  <settings defaultResolver="main" />
+  <!--Authentication required for publishing (deployment). 'Artifactory Realm' is the realm used by Artifactory so don't change it.-->
+  <credentials host="localhost" realm="Artifactory Realm" username="admin" passwd="xxx" />
+  <resolvers>
+    <chain name="main">
+      <url name="shared" m2compatible="true">
+        <artifact pattern="http://localhost:8081/artifactory/example-ivy-dev-local/[organization]/[module]/[revision]/[type]s/[module](-[classifier])-[revision].[ext]" />
+        <ivy pattern="http://localhost:8081/artifactory/example-ivy-dev-local/[organization]/[module]/[revision]/[type]s/ivy-[revision].xml" />
+      </url>
+    </chain>
+  </resolvers>
+</ivy-settings>
+
+```
+
+I exemplet ovan har jag pekat ut en artifaktory som jag kör på min lokala maskin, men i praktiken borde den här vara en delad artifaktory som alla utvecklare kan komma åt. 
+
+
 
