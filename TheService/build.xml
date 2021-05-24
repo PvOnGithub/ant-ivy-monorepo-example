@@ -18,10 +18,17 @@
         <delete dir="lib" />
     </target>
 
+    <target name="build-only-if-changed" unless="artifact.uptodate" depends="init">
+        <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
+        <antcall target="build" />
+        <antcall target="ivy-publish-local" />
+    </target>
+
     <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
+        <antcall target="ivy-publish-shared" />
     </target>
 
     <target name="build" depends="jar">
@@ -75,6 +82,15 @@
         <ivy:resolve/>
         <ivy:publish resolver="local" status="integration" forcedeliver="true">
             <artifacts pattern="build/artifacts/[artifact]-[type].[ext]"/>
+        </ivy:publish>
+    </target>
+
+    <target name="ivy-publish-shared" description="Publish this build into shared repository">
+        <ivy:resolve/>
+        <ivy:buildnumber resolver="shared" organisation="se.woop" module="theservice" revision="1.0" />
+        <echo message="Current revision is: ${ivy.revision}, new revision to be published will be: ${ivy.new.revision}" />
+        <ivy:publish resolver="shared" update="true" pubrevision="${ivy.new.revision}">
+            <artifacts pattern="build/artifacts/[artifact]-[type].[ext]" />
         </ivy:publish>
     </target>
 

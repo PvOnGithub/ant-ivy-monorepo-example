@@ -13,6 +13,12 @@
 
     <target name="build" description="Build and publish all modules">
         <subant buildpathref="build-list">
+            <target name="build-only-if-changed" />
+        </subant>
+    </target>
+
+    <target name="build-and-publish" description="Build and publish all modules">
+        <subant buildpathref="build-list">
             <target name="build-and-publish-only-if-changed" />
         </subant>
     </target>

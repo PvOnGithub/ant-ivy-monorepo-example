@@ -19,10 +19,17 @@
         <delete dir="lib" />
     </target>
 
+    <target name="build-only-if-changed" unless="artifact.uptodate" depends="init">
+        <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
+        <antcall target="build" />
+        <antcall target="ivy-publish-local" />
+    </target>
+
     <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
+        <antcall target="ivy-publish-shared" />
     </target>
 
 
