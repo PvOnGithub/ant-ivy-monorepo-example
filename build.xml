@@ -23,9 +23,9 @@
         </subant>
     </target>
 
-    <target name="deploy" description="Deploy all modules">
+    <target name="build-and-deploy" description="Build and deploy all modules">
         <subant buildpathref="build-list">
-            <target name="deploy" />
+            <target name="build-and-deploy-only-if-changed" />
         </subant>
     </target>
 
