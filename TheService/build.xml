@@ -2,6 +2,7 @@
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
     <ivy:settings file="../ivysettings/ivysettings.xml"/>
+    <import file="../version.xml" />
 
     <target name="init">
         <ivy:retrieve sync="true" type="jar,bundle,client,schema" pattern="lib/[artifact]-[type]-[revision].[ext]" log="quiet" />
@@ -87,9 +88,9 @@
 
     <target name="ivy-publish-shared" description="Publish this build into shared repository">
         <ivy:resolve/>
-        <ivy:buildnumber resolver="shared" organisation="se.woop" module="theservice" revision="1.0" />
-        <echo message="Current revision is: ${ivy.revision}, new revision to be published will be: ${ivy.new.revision}" />
-        <ivy:publish resolver="shared" update="true" pubrevision="${ivy.new.revision}">
+        <!-- <ivy:buildnumber resolver="shared" organisation="se.woop" module="theservice" revision="1.0" /> -->
+        <!-- <echo message="Current revision is: ${ivy.revision}, new revision to be published will be: ${ivy.new.revision}" /> -->
+        <ivy:publish resolver="shared" update="true" pubrevision="${version}">
             <artifacts pattern="build/artifacts/[artifact]-[type].[ext]" />
         </ivy:publish>
     </target>
