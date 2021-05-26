@@ -3,8 +3,8 @@ pipeline {
     stages {
         stage('Build') { 
             steps {
-                echo 'Hello world!' 
-                bat "ant -version"
+                echo 'Building project...' 
+                bat "ant build-and-deploy"
             }
         }
     }
