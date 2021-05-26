@@ -23,20 +23,24 @@
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
+        <antcall target="copy-artifact-to-newartifacts" />
     </target>
 
     <target name="build-and-deploy-only-if-changed" unless="artifact.uptodate" depends="init">
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
+        <antcall target="copy-artifact-to-newartifacts" />
         <antcall target="deploy" />
     </target>
 
+    <!-- Only meant to be used from Jenkins when publishing to JFrog (from Main/Prod branch) -->
     <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
         <antcall target="ivy-publish-shared" />
+        <antcall target="copy-artifact-to-newartifacts" />
     </target>
 
     <target name="build" depends="jar">
@@ -52,6 +56,12 @@
 
     <target name="deploy">
         <echo>TODO: Deploy code here!!! :-)</echo>
+    </target>
+
+    <target name="copy-artifact-to-newartifacts">
+        <copy file="build/artifacts/theservice-service.ear" tofile="../build/newArtifacts/theservice-service.ear"/>
+        <copy file="build/artifacts/theservice-client.jar" tofile="../build/newArtifacts/theservice-client.jar"/>
+        <copy file="build/artifacts/theservice-schema.jar" tofile="../build/newArtifacts/theservice-schema.jar"/>
     </target>
 
     <target name="compile">

@@ -24,20 +24,24 @@
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
+        <antcall target="copy-artifact-to-newartifacts" />
     </target>
 
     <target name="build-and-deploy-only-if-changed" unless="artifact.uptodate" depends="init">
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
+        <antcall target="copy-artifact-to-newartifacts" />
         <antcall target="deploy" />
     </target>
 
+    <!-- Only meant to be used from Jenkins when publishing to JFrog (from Main/Prod branch) -->
     <target name="build-and-publish-only-if-changed" unless="artifact.uptodate" depends="init">
         <echo message="${ant.project.name}: Changes found in source or dependencies, rebuilding artifact(s)." />
         <antcall target="build" />
         <antcall target="ivy-publish-local" />
         <antcall target="ivy-publish-shared" />
+        <antcall target="copy-artifact-to-newartifacts" />
     </target>
 
 
@@ -48,6 +52,10 @@
                 <attribute name="Main-Class" value="se.woop.TheLibrary" />
             </manifest>
         </jar>
+    </target>
+
+    <target name="copy-artifact-to-newartifacts">
+        <copy file="build/artifacts/thelibrary.jar" tofile="../build/newArtifacts/thelibrary.jar"/>
     </target>
 
     <target name="deploy">

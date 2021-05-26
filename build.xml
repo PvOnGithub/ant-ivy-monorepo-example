@@ -11,22 +11,28 @@
         </subant>
     </target>
 
-    <target name="build" description="Build and publish all modules">
+    <target name="build" description="Build and publish all modules" depends="clear-newArtifacts-folder">
         <subant buildpathref="build-list">
             <target name="build-only-if-changed" />
         </subant>
     </target>
 
-    <target name="build-and-publish" description="Build and publish all modules">
+    <target name="build-and-deploy" description="Build and deploy all modules" depends="clear-newArtifacts-folder">
+        <subant buildpathref="build-list">
+            <target name="build-and-deploy-only-if-changed" />
+        </subant>
+    </target>
+
+    <!-- Only meant to be used from Jenkins when publishing to JFrog (from Main/Prod branch) -->
+    <target name="build-and-publish" description="Build and publish all modules" depends="clear-newArtifacts-folder">
         <subant buildpathref="build-list">
             <target name="build-and-publish-only-if-changed" />
         </subant>
     </target>
 
-    <target name="build-and-deploy" description="Build and deploy all modules">
-        <subant buildpathref="build-list">
-            <target name="build-and-deploy-only-if-changed" />
-        </subant>
+    <target name="clear-newArtifacts-folder">
+        <!-- After a new build, only the newly created artifacts will be present under "build/newArtifacts" -->
+        <delete dir="build/newArtifacts" />
     </target>
 
     <!-- Install IVY -->
