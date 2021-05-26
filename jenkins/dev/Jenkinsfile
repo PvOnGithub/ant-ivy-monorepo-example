@@ -4,6 +4,7 @@ pipeline {
         stage('Build') { 
             steps {
                 echo 'Hello world!' 
+                bat "ant -version"
             }
         }
     }
