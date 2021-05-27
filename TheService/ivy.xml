@@ -16,8 +16,8 @@
         <artifact name="theservice" type="schema" ext="jar" conf="schema" />
     </publications>
 
-        <dependencies>
-            <dependency org="se.woop" name="thelibrary" rev="latest.integration" conf="default->*"/>
-        </dependencies>
+    <dependencies>
+        <dependency org="se.woop" name="thelibrary" rev="latest.integration" conf="default->*"/>
+    </dependencies>
 
 </ivy-module>
