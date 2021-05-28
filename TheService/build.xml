@@ -98,7 +98,7 @@
 
     <target name="ivy-publish-local" description="Publish this build into repository">
         <ivy:resolve/>
-        <ivy:publish resolver="local" status="integration" forcedeliver="true">
+        <ivy:publish resolver="local" status="integration" forcedeliver="true" overwrite="true">
             <artifacts pattern="build/artifacts/[artifact]-[type].[ext]"/>
         </ivy:publish>
     </target>
