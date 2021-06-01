@@ -1,6 +1,7 @@
 <project name="theservice" default="test"
     xmlns:ivy="antlib:org.apache.ivy.ant">
 
+    <property environment="env"/>
     <ivy:settings file="../ivysettings/ivysettings.xml"/>
     <import file="../version.xml" />
 
@@ -55,7 +56,8 @@
     </target>
 
     <target name="deploy">
-        <echo>TODO: Deploy code here!!! :-)</echo>
+        <echo message="Deploying to folder ${env.PAYARA_MOCK_FOLDER}" />
+        <copy file="build/artifacts/theservice-service.ear" tofile="${env.PAYARA_MOCK_FOLDER}/theservice-service.ear"/>
     </target>
 
     <target name="copy-artifact-to-newartifacts">
