@@ -140,10 +140,11 @@ Följande instruktion gäller Windows.
 4. Kör "artifactory.bat"
 5. Gå till [http://localhost:8082/ui](http://localhost:8082/ui)
 6. Logga in med användarnamn "admin" och lösenord "password"
-7. Tryck på "Welcome, admin" uppe till höger, i menyn välj sedan "Quick Setup"
-8. I popupen "Create Repositories" väljer du "Ivy"
-9. I nästa i fyller du under "Repositories prefix" i "shared"
-10. Klart!
+7. Uppdatera admin lösenordet till ´P4ssword´
+8. Tryck på "Welcome, admin" uppe till höger, i menyn välj sedan "Quick Setup"
+9. I popupen "Create Repositories" väljer du "Ivy"
+10. I nästa i fyller du under "Repositories prefix" i "shared"
+11. Klart!
 
 Väljer du nu "Artifactory" och går till "Artifacts" i menyn till höger borde du se något i stil med dethär:
 
