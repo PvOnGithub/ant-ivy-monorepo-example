@@ -136,11 +136,11 @@ Följande instruktion gäller Windows.
 
 1. Börja med att ladda hem JFrog [här](https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/[RELEASE]/jfrog-artifactory-oss-[RELEASE]-windows.zip)
 2. Packa upp nedladdad folder till önskat ställe på disk
-3.  Gå in i foldern .../app/bin
-4. Kör "artifactory.bat"
+3.  Gå in i foldern `.../app/bin`
+4. Kör `artifactory.bat`
 5. Gå till [http://localhost:8082/ui](http://localhost:8082/ui)
-6. Logga in med användarnamn "admin" och lösenord "password"
-7. Uppdatera admin lösenordet till ´P4ssword´
+6. Logga in med användarnamn `admin` och lösenord `password`
+7. Uppdatera admin lösenordet till `P4ssword`
 8. Tryck på "Welcome, admin" uppe till höger, i menyn välj sedan "Quick Setup"
 9. I popupen "Create Repositories" väljer du "Ivy"
 10. I nästa i fyller du under "Repositories prefix" i "shared"
