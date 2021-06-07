@@ -146,7 +146,7 @@ Följande instruktion gäller Windows.
 10. "Finish" och avsluta onboardingprocessen
 11. Tryck på "Welcome, admin" uppe till höger, i menyn välj sedan "Quick Setup"
 12. I popupen "Create Repositories" väljer du "Ivy"
-13. I nästa i fyller du under "Repositories prefix" i "shared"
+13. I nästa fält fyller du i "shared" under "Repositories prefix"
 14. Klart!
 
 Väljer du nu "Artifactory" och går till "Artifacts" i menyn till höger borde du se något i stil med dethär:
