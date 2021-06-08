@@ -184,14 +184,36 @@ Men först, skapa upp foldrarna C:\utils\demo\{dev,test}
 1. Från Dashboarden, välj "New Item"
 2. Välj "Pipeline"
 3. Döp till `dev (Build and Deploy)`
-4. Välj "Ok"
+4. Klicka "Ok"
 5. Klicka i "Prepare an environment for the run"
-6. I "Properties Content" fyll i "PAYARA_MOCK_FOLDER=C:\utils\demo\dev"
+6. I "Properties Content" fyll i `PAYARA_MOCK_FOLDER=C:\utils\demo\dev`
 7. Klicka i "Poll SCM"
 8. Sätt "Schedule" till `H/2 * * * *`
 9. Sätt "Pipeline" -> "Definition" till "Pipeline script from SCM"
 10. Sätt "SCM" till "Git"
 11. Sätt "Repository URL" till "https://github.com/PvOnGithub/ant-ivy-monorepo-example.git"
-12. Sätt "Repository browser" till "githubweb"
-13. Klicka "Save"
-14. 
+12. Sätt "Branches to build" -> "Branch Specifier" till `*/dev`
+13. Sätt "Repository browser" till "githubweb"
+14. Sätt URL till `https://github.com/PvOnGithub/ant-ivy-monorepo-example`
+15. Sätt "Scripth Path" till `jenkins/dev/Jenkinsfile`
+16. Klicka "Save"
+17. Gå tillbaka till Dashboarden
+18. Välj "New Item"
+19. Fyll i `test (Build and Deploy)` som namn
+20. I fältet "Copy from" skriv i "dev" och välj "dev (Build and Deploy)"
+21. Klicka "Ok"
+22. I "properties Content" ändra `...\dev` till `...\test`
+23. I "Branches to build" -> "Branch Specifier" ändra `*\dev`till `*/test`
+24. I "Script Path" ändra `jenkins/dev/Jenkinsfile` till `jenkins/test/Jenkinsfile`
+25. Klicka "Save"
+26. 17. Gå tillbaka till Dashboarden
+18. Välj "New Item"
+19. Fyll i `main (Build and Deploy)` som namn
+20. I fältet "Copy from" skriv i "dev" och välj "dev (Build and Deploy)"
+21. Klicka "Ok"
+22. I "properties Content" ändra `...\dev` till `...\main`
+23. I "Branches to build" -> "Branch Specifier" ändra `*\dev`till `*/main`
+24. I "Script Path" ändra `jenkins/dev/Jenkinsfile` till `jenkins/main/Jenkinsfile`
+25. Klicka "Save"
+26. Klart!
+
