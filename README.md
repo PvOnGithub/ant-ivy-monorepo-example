@@ -136,14 +136,18 @@ Följande instruktion gäller Windows.
 
 1. Börja med att ladda hem JFrog [här](https://releases.jfrog.io/artifactory/bintray-artifactory/org/artifactory/oss/jfrog-artifactory-oss/[RELEASE]/jfrog-artifactory-oss-[RELEASE]-windows.zip)
 2. Packa upp nedladdad folder till önskat ställe på disk
-3.  Gå in i foldern .../app/bin
-4. Kör "artifactory.bat"
+3.  Gå in i foldern `.../app/bin`
+4. Kör `artifactory.bat`
 5. Gå till [http://localhost:8082/ui](http://localhost:8082/ui)
-6. Logga in med användarnamn "admin" och lösenord "password"
-7. Tryck på "Welcome, admin" uppe till höger, i menyn välj sedan "Quick Setup"
-8. I popupen "Create Repositories" väljer du "Ivy"
-9. I nästa i fyller du under "Repositories prefix" i "shared"
-10. Klart!
+6. Logga in med användarnamn `admin` och lösenord `password`
+7. Uppdatera admin lösenordet till `P4ssword`
+8. Sätt "Base URL" till `http://localhost:8081`
+9. "Skip" Default proxy
+10. "Finish" och avsluta onboardingprocessen
+11. Tryck på "Welcome, admin" uppe till höger, i menyn välj sedan "Quick Setup"
+12. I popupen "Create Repositories" väljer du "Ivy"
+13. I nästa fält fyller du i "shared" under "Repositories prefix"
+14. Klart!
 
 Väljer du nu "Artifactory" och går till "Artifacts" i menyn till höger borde du se något i stil med dethär:
 
@@ -156,5 +160,38 @@ För att testa repositoryt kan du nu gå till det här projektet och in i *TheLi
 
 Sådär ja, har du kommit såhär långt har du ett fungerande repository och kan publicera artefakter. Bra jobbat! :smiley:
 
- 
+## Sätt upp Jenkins lokalt
 
+Följande instruktion gäller Windows.
+
+1. Börja med att ladda hem Jenkins [här](https://www.jenkins.io/download/thank-you-downloading-windows-installer-stable)
+2. Följ installationsguiden för Windows [här](https://www.jenkins.io/doc/book/installing/windows/). <br>Undantaget från guiden är att i Steg 3 välja "Run service as LocalSystem".
+3. Bra-att-ha sökväg: C:\WINDOWS\system32\config\systemprofile\AppData\Local\Jenkins\.jenkins
+4. Välj "Install suggested plugins"
+5. På steget "Create First Admin User" välj "Skip and continue as admin"
+6. På steget "Instance Configuration" välj "Save and Finish"
+7. Klart!
+
+Fortsätt in i Jenkins
+1. Välj "Manage Plugins" (finns under "Manage Jenkins")
+2. Klicka på fliken "Available"
+3. Sök efter "Environment Injector" och välj den för installation
+4. Välj "Install without restart"
+
+Dags att skapa upp jobb.
+Men först, skapa upp foldrarna C:\utils\demo\{dev,test}
+
+1. Från Dashboarden, välj "New Item"
+2. Välj "Pipeline"
+3. Döp till `dev (Build and Deploy)`
+4. Välj "Ok"
+5. Klicka i "Prepare an environment for the run"
+6. I "Properties Content" fyll i "PAYARA_MOCK_FOLDER=C:\utils\demo\dev"
+7. Klicka i "Poll SCM"
+8. Sätt "Schedule" till `H/2 * * * *`
+9. Sätt "Pipeline" -> "Definition" till "Pipeline script from SCM"
+10. Sätt "SCM" till "Git"
+11. Sätt "Repository URL" till "https://github.com/PvOnGithub/ant-ivy-monorepo-example.git"
+12. Sätt "Repository browser" till "githubweb"
+13. Klicka "Save"
+14. 
