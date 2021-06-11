@@ -217,3 +217,6 @@ Men först, skapa upp foldrarna C:\utils\demo\{dev,test}
 25. Klicka "Save"
 26. Klart!
 
+![image-20210611084022911](./docs/jenkins-dashboard.png)
+
+Nu bygger Jenkins dina artefakter och publicerar dem i en folder för dev/test och i JFrog artifactoryt för main. Härligt! :thumbsup:
