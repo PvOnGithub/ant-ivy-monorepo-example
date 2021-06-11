@@ -166,7 +166,7 @@ Följande instruktion gäller Windows.
 
 1. Börja med att ladda hem Jenkins [här](https://www.jenkins.io/download/thank-you-downloading-windows-installer-stable)
 2. Följ installationsguiden för Windows [här](https://www.jenkins.io/doc/book/installing/windows/). <br>Undantaget från guiden är att i Steg 3 välja "Run service as LocalSystem".
-3. Bra-att-ha sökväg: C:\WINDOWS\system32\config\systemprofile\AppData\Local\Jenkins\.jenkins
+3. Bra-att-ha sökväg: C:\WINDOWS\system32\config\systemprofile\AppData\Local\Jenkins\\.jenkins
 4. Välj "Install suggested plugins"
 5. På steget "Create First Admin User" välj "Skip and continue as admin"
 6. På steget "Instance Configuration" välj "Save and Finish"
