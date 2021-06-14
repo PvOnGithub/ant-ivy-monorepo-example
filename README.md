@@ -206,7 +206,7 @@ Men först, skapa upp foldrarna C:\utils\demo\{dev,test}
 23. I "Branches to build" -> "Branch Specifier" ändra `*\dev`till `*/test`
 24. I "Script Path" ändra `jenkins/dev/Jenkinsfile` till `jenkins/test/Jenkinsfile`
 25. Klicka "Save"
-26. 17. Gå tillbaka till Dashboarden
+26. Gå tillbaka till Dashboarden
 18. Välj "New Item"
 19. Fyll i `main (Build and Deploy)` som namn
 20. I fältet "Copy from" skriv i "dev" och välj "dev (Build and Deploy)"
